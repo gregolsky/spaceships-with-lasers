@@ -1,42 +1,77 @@
 (function() {
   'use strict';
 
+  var Player = function (state) {
+      this.state = state;
+      this.sprite = null;
+  };
+  
+  Player.prototype.create = function () {
+      var x = this.state.game.width / 2
+        , y = this.state.game.height / 2;
+      
+      this.sprite = this.state.add.sprite(x, y, 'ship');
+      this.sprite.angle = -95;
+      this.sprite.scale.x = 1.5;
+      this.sprite.scale.y = 1.5;
+      this.sprite.anchor.set(0.5, 0.5);
+      
+      this.state.game.physics.enable(this.sprite, Phaser.Physics.P2JS);
+      
+      this.sprite.body.collideWorldBounds = true;
+      
+      this.state.game.camera.follow(this.sprite);
+  };
+    
+  Player.prototype.update = function () {
+    var cursors = this.state.cursors;
+      
+    if (cursors.left.isDown)
+    {
+        this.sprite.body.rotateLeft(70);
+    }
+    else if (cursors.right.isDown)
+    {
+        this.sprite.body.rotateRight(70);
+    }
+
+    if (cursors.up.isDown)
+    {
+        //  The speed we'll travel at
+        this.sprite.body.thrust(500);
+    }
+    else
+    {
+        if (this.speed > 0)
+        {
+            this.speed -= 4;
+        }
+    }
+  };
+    
   function Game() {
     this.player = null;
+    this.cursors = null;
   }
 
   Game.prototype = {
 
     create: function () {
-      var x = this.game.width / 2
-        , y = this.game.height / 2;
-
-      this.player = this.add.sprite(x, y, 'player');
-      this.player.anchor.setTo(0.5, 0.5);
-      this.input.onDown.add(this.onInputDown, this);
+      
+      this.game.world.setBounds(0, 0, 800, 600);
+      this.game.physics.startSystem(Phaser.Physics.P2JS);
+      this.cursors = this.game.input.keyboard.createCursorKeys();
+      
+      this.player = new Player(this);
+      this.player.create();
     },
 
     update: function () {
-      var x, y, cx, cy, dx, dy, angle, scale;
-
-      x = this.input.position.x;
-      y = this.input.position.y;
-      cx = this.world.centerX;
-      cy = this.world.centerY;
-
-      angle = Math.atan2(y - cy, x - cx) * (180 / Math.PI);
-      this.player.angle = angle;
-
-      dx = x - cx;
-      dy = y - cy;
-      scale = Math.sqrt(dx * dx + dy * dy) / 100;
-
-      this.player.scale.x = scale * 0.6;
-      this.player.scale.y = scale * 0.6;
-    },
-
-    onInputDown: function () {
-      this.game.state.start('menu');
+        this.player.update();
+        
+        this.game.debug.cameraInfo(this.game.camera, 32, 32);
+    this.game.debug.spriteCoords(this.player.sprite, 32, 200);
+        
     }
 
   };
