@@ -14,7 +14,7 @@
 
       this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
       this.load.setPreloadSprite(this.asset);
-      this.load.image('ship', 'assets/ship.png');
+      this.load.spritesheet('ship', 'assets/ship.png', 23, 27, 5);
       this.load.image('nebula', 'assets/nebula.jpg');
       this.load.bitmapFont('minecraftia', 'assets/minecraftia.png', 'assets/minecraftia.xml');
     },
