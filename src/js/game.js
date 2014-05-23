@@ -7,19 +7,17 @@
   };
   
   Player.prototype.create = function () {
-      var x = this.state.game.width / 2
-        , y = this.state.game.height / 2;
       
-      this.sprite = this.state.add.sprite(x, y, 'ship');
-      this.sprite.angle = -95;
+      this.sprite = this.state.add.sprite(0, 0, 'ship');
+      this.sprite.angle = -90;
       this.sprite.scale.x = 1.5;
       this.sprite.scale.y = 1.5;
       this.sprite.anchor.set(0.5, 0.5);
       
       this.state.game.physics.enable(this.sprite, Phaser.Physics.P2JS);
       
-      this.sprite.body.collideWorldBounds = true;
-      
+      this.state.game.camera.deadzone = new Phaser.Rectangle(-1000, -1000, this.state.game.width, this.state.game.height);
+      this.state.game.camera.focusOnXY(0, 0);
       this.state.game.camera.follow(this.sprite);
   };
     
@@ -28,24 +26,17 @@
       
     if (cursors.left.isDown)
     {
-        this.sprite.body.rotateLeft(70);
+        this.sprite.body.angle -= 4;
     }
     else if (cursors.right.isDown)
     {
-        this.sprite.body.rotateRight(70);
+        this.sprite.body.angle += 4;
     }
 
     if (cursors.up.isDown)
     {
         //  The speed we'll travel at
         this.sprite.body.thrust(500);
-    }
-    else
-    {
-        if (this.speed > 0)
-        {
-            this.speed -= 4;
-        }
     }
   };
     
@@ -58,9 +49,11 @@
 
     create: function () {
       
-      this.game.world.setBounds(0, 0, 800, 600);
+      this.game.world.setBounds(-1000, -1000, 2000, 2000);
       this.game.physics.startSystem(Phaser.Physics.P2JS);
       this.cursors = this.game.input.keyboard.createCursorKeys();
+        
+      this.game.add.tileSprite(-1000, -1000, 2000, 2000, 'nebula');
       
       this.player = new Player(this);
       this.player.create();
