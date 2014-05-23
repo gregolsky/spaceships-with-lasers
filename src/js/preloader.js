@@ -17,6 +17,10 @@
       this.load.spritesheet('ship', 'assets/ship.png', 23, 27, 5);
       this.load.image('nebula', 'assets/nebula.jpg');
       this.load.bitmapFont('minecraftia', 'assets/minecraftia.png', 'assets/minecraftia.xml');
+      
+      for (var i = 1; i <= 5; i++) {
+       	this.load.image('rock' + i, 'assets/rock' + i + '.png');
+      }
     },
 
     create: function () {
