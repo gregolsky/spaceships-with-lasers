@@ -37,6 +37,7 @@ gulp.task('uglify', ['lint'], function () {
   var srcs = [paths.libs[0], paths.js[0]];
 
   gulp.src(srcs)
+    .pipe(concat('phaser.min.js'))
     .pipe(concat('main.min.js'))
     .pipe(gulp.dest(paths.dist))
     .pipe(uglify({outSourceMaps: false}))
