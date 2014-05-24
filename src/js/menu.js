@@ -4,6 +4,7 @@
   function Menu() {
     this.titleTxt = null;
     this.startTxt = null;
+    this.startKey = null;
   }
 
   Menu.prototype = {
@@ -24,6 +25,8 @@
       this.startTxt.x = this.game.width / 2 - this.startTxt.textWidth / 2;
 
       this.input.onDown.add(this.onDown, this);
+
+      this.startKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
 
     update: function () {
@@ -34,6 +37,10 @@
         {
             this.timer -= interval;
             this.startTxt.visible = !this.startTxt.visible;
+        }
+
+        if (this.startKey.isDown) {
+          this.onDown();
         }
     },
 
