@@ -21,6 +21,8 @@
       for (var i = 1; i <= 5; i++) {
        	this.load.image('rock' + i, 'assets/rock' + i + '.png');
       }
+
+      this.load.physics('physics', 'assets/physics.json');
     },
 
     create: function () {

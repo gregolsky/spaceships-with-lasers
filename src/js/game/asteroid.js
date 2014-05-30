@@ -17,11 +17,17 @@ Asteroid.prototype.create = function () {
       sprite.scale.x = sprite.scale.y = 3;
       
       game.physics.enable(sprite, Phaser.Physics.P2JS);
+
+      sprite.body.clearShapes();
+      sprite.body.loadPolygon('physics', 'rock' + this.spriteId);
+      
       sprite.checkWorldBounds = true;
+      
       sprite.body.angle = this.angle;
       sprite.body.collideWorldBounds = false;
       sprite.body.setZeroDamping();
       sprite.body.mass = this.spriteId * 5;
+
 
       this.sprite = sprite;
 };
