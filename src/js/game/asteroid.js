@@ -14,8 +14,6 @@ Asteroid.prototype.create = function () {
       var game = this.state.game;
       var sprite = this.state.add.sprite(this.position.x, this.position.y, 'rock' + this.spriteId, 2);
 
-      sprite.scale.x = sprite.scale.y = 3;
-      
       game.physics.enable(sprite, Phaser.Physics.P2JS);
 
       sprite.body.clearShapes();
@@ -25,15 +23,13 @@ Asteroid.prototype.create = function () {
       
       sprite.body.angle = this.angle;
       sprite.body.collideWorldBounds = false;
-      sprite.body.setZeroDamping();
       sprite.body.mass = this.spriteId * 5;
-
 
       this.sprite = sprite;
 };
 
 Asteroid.prototype.update = function () {
-
+  
   if (!this.pushed) {
     this.pushed = true;
     this.sprite.body.moveForward(this.speed);
