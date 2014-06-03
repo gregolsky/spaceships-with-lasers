@@ -18,9 +18,8 @@
       sprite.animations.add('right', [ 4 ], 60, false);
       
       sprite.angle = -90;
-      sprite.scale.x = sprite.scale.y = 3;
       
-      game.physics.enable(sprite, Phaser.Physics.P2JS);
+      game.physics.enable(sprite, Phaser.Physics.P2JS, true);
       sprite.checkWorldBounds = true;
       sprite.body.collideWorldBounds = false;
       sprite.body.setZeroDamping();
@@ -29,6 +28,9 @@
       game.camera.focusOn(sprite);
       game.camera.follow(sprite);
       
+      sprite.body.clearShapes();
+      sprite.body.loadPolygon('physics', 'ship');
+
       this.sprite = sprite;
   };
     
